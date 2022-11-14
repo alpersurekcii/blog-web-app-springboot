@@ -103,20 +103,20 @@
 
 
 <br><br>
-<div class="row" th:each="blog: ${blogInf}">
+<div class="row" th:each="blog: ${blogInf} " >
     <div class="row">
         <div class="col-lg-9 col-sm-4 mx-auto">
-            <img style="width:900px ; height:400px;" class="img-fluid" th:src="@{${blogInf.getPhotosImagePath()}}" alt="">
+            <img style="width:900px ; height:400px;" class="img-fluid" th:src="@{${blogEnt.getPhotosImagePath()}}" alt="">
         </div>
         <br><br><br>
         <div class="col-lg-8 mx-auto">
-            <h2 style="color:black" th:text="${blogInf.getBlogTitle()}"></h2>
+            <h2 style="color:black" th:text="${blogInf.title}"></h2>
 
-            <p th:text="${blogInf.getBlogContain()}"></p>
+            <p th:text="${blogInf.blogContain}"></p>
         </div>
         <div style="text-align: right">
             <p  >Written By </p>
-            <p  th:text="${blogInf.writtenBy}"></p>
+            <p  th:text="${blogEnt.writtenBy}"></p>
         </div>
 
         <hr>

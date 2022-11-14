@@ -56,8 +56,10 @@ public class BlogPageRestImp implements IBlogRest {
 
     @Override
     @GetMapping("/show/{id}")
-    public BlogEntity showBlog(@PathVariable(name="id") Long id) {
-        return iBlogServices.showBlogById(id);
+    public BlogDto showBlog(@PathVariable(name="id") Long id) {
+        BlogEntity blogEntity = iBlogServices.showBlogById(id);
+        BlogDto blogDto  = iBlogServices.blogEntityToDto(blogEntity);
+        return blogDto;
 
 
 

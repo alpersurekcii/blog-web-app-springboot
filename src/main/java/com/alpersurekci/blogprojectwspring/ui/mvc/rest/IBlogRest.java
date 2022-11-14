@@ -18,5 +18,5 @@ public interface IBlogRest {
 
     ResponseEntity<Map<String, Boolean>> deleteBlog(Long id);
 
-    BlogEntity showBlog(Long id);
+    BlogDto showBlog(Long id);
 }

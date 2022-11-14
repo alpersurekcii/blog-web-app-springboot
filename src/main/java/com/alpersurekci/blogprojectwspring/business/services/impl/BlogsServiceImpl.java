@@ -19,6 +19,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -148,7 +149,27 @@ public class BlogsServiceImpl implements IBlogServices {
     @Override
     public List<BlogEntity> IndexBlog() {
         List<BlogEntity> blogEntity = blogsRepository.findAll();
-       return blogEntity;
+        List<BlogEntity> blogEntities = new ArrayList<>();
+        for (int i=0; i<blogEntity.size(); i++){
+            Long id = blogEntity.get(i).getBlogID();
+            String image = blogEntity.get(i).getBlogImage();
+            String title = blogEntity.get(i).getBlogTitle();
+            String shor = blogEntity.get(i).getBlogShort();
+            String writeby = blogEntity.get(i).getWrittenBy();
+            String contain = blogEntity.get(i).getBlogContain();
+            String imagepath = blogEntity.get(i).getPhotosImagePath();
+            BlogEntity blogEntity1 = new BlogEntity();
+            blogEntity1.setBlogID(id);
+            blogEntity1.setBlogContain(contain);
+            blogEntity1.setBlogShort(shor);
+            blogEntity1.setBlogTitle(title);
+            blogEntity1.setBlogImage(image);
+            blogEntity1.setWrittenBy(writeby);
+            blogEntity1.setUserEntity(null);
+            blogEntities.add(blogEntity1);
+        }
+       // log.info(blogEntity1.get(0).getUserEntity());
+        return blogEntities;
     }
 
     @Override

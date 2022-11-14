@@ -10,6 +10,9 @@ import java.util.List;
 @Repository
 public interface IBlogsRepository extends JpaRepository<BlogEntity, Long> {
 
-    @Query(value = "Select * From blogs_table blogs where blogs.user_entity_userid=?1 ", nativeQuery = true)
+    @Query(value = "Select * From blogs_table as blogs where blogs.user_entity_userid=?1 ", nativeQuery = true)
     List<BlogEntity> findAllByUserEntity(Long id);
+
+    @Query( value = "Select blogID, blog_title, blog_contain,blog_image,blog_short,written_by From blogs_table", nativeQuery = true)
+    List<BlogEntity> findIndexBlog();
 }

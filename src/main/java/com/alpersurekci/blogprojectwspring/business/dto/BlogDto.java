@@ -5,8 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.Transient;
 import javax.validation.constraints.NotEmpty;
-import java.beans.Transient;
 
 @Data
 @AllArgsConstructor
@@ -25,6 +25,10 @@ public class BlogDto {
 
 
     private String blogShort;
+
+    private String writingBy;
+
+
 
 
 

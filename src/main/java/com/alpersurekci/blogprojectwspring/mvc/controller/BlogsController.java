@@ -6,6 +6,8 @@ import com.alpersurekci.blogprojectwspring.business.services.IBlogServices;
 import com.alpersurekci.blogprojectwspring.data.entity.BlogEntity;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -15,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.io.IOException;
+import java.security.Principal;
 
 @Log4j2
 @Controller
@@ -94,9 +97,12 @@ public class BlogsController {
     @GetMapping("/blog/{id}")
     public String getBlogDetail(@PathVariable(name="id")Long id, Model model){
         BlogEntity blogEntity = services.showBlogById(id);
-
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if(blogEntity != null) {
-            model.addAttribute("blogInf", blogEntity);
+            BlogDto blogDto = services.blogEntityToDto(blogEntity);
+            model.addAttribute("blogInf", blogDto);
+            model.addAttribute("blogEnt", blogEntity );
+
             return "ShowBlog";
         }else {
             return "BlogNotFound";
