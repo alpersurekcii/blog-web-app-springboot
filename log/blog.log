@@ -769,3 +769,46 @@ org.springframework.expression.spel.SpelEvaluationException: EL1004E: Method cal
 2022-11-15 13:10:02.094  INFO 6932 --- [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
 2022-11-15 13:10:02.099  INFO 6932 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
 2022-11-15 13:10:02.101  INFO 6932 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2022-11-15 13:12:12.278  INFO 1104 --- [restartedMain] c.a.b.BlogProjectwSpringApplication      : Starting BlogProjectwSpringApplication using Java 18.0.1.1 on DellPC with PID 1104 (C:\Users\Dell\Desktop\tech-proje\Blog-ProjectwSpring\target\classes started by Dell in C:\Users\Dell\Desktop\tech-proje\Blog-ProjectwSpring)
+2022-11-15 13:12:12.281  INFO 1104 --- [restartedMain] c.a.b.BlogProjectwSpringApplication      : No active profile set, falling back to 1 default profile: "default"
+2022-11-15 13:12:12.353  INFO 1104 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2022-11-15 13:12:12.354  INFO 1104 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2022-11-15 13:12:13.417  INFO 1104 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2022-11-15 13:12:13.487  INFO 1104 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 60 ms. Found 2 JPA repository interfaces.
+2022-11-15 13:12:14.105  INFO 1104 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2022-11-15 13:12:14.111  INFO 1104 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2022-11-15 13:12:14.111  INFO 1104 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.63]
+2022-11-15 13:12:14.189  INFO 1104 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2022-11-15 13:12:14.189  INFO 1104 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1834 ms
+2022-11-15 13:12:14.254  INFO 1104 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2022-11-15 13:12:14.358  INFO 1104 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2022-11-15 13:12:14.367  INFO 1104 --- [restartedMain] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:h2:file:./memory_persist/BlogDB'
+2022-11-15 13:12:14.482  INFO 1104 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2022-11-15 13:12:14.520  INFO 1104 --- [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.6.9.Final
+2022-11-15 13:12:14.628  INFO 1104 --- [restartedMain] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2022-11-15 13:12:14.720  INFO 1104 --- [restartedMain] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.H2Dialect
+2022-11-15 13:12:15.269  INFO 1104 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2022-11-15 13:12:15.275  INFO 1104 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2022-11-15 13:12:15.685  WARN 1104 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2022-11-15 13:12:15.769  WARN 1104 --- [restartedMain] o.s.s.c.a.web.builders.WebSecurity       : You are asking Spring Security to ignore Ant [pattern='/h2-console/**']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2022-11-15 13:12:15.769  INFO 1104 --- [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will not secure Ant [pattern='/h2-console/**']
+2022-11-15 13:12:15.770  WARN 1104 --- [restartedMain] o.s.s.c.a.web.builders.WebSecurity       : You are asking Spring Security to ignore Ant [pattern='/register']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2022-11-15 13:12:15.770  INFO 1104 --- [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will not secure Ant [pattern='/register']
+2022-11-15 13:12:15.770  WARN 1104 --- [restartedMain] o.s.s.c.a.web.builders.WebSecurity       : You are asking Spring Security to ignore Ant [pattern='/public/**']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2022-11-15 13:12:15.770  INFO 1104 --- [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will not secure Ant [pattern='/public/**']
+2022-11-15 13:12:15.770  WARN 1104 --- [restartedMain] o.s.s.c.a.web.builders.WebSecurity       : You are asking Spring Security to ignore Ant [pattern='/api/v1/**']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2022-11-15 13:12:15.771  INFO 1104 --- [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will not secure Ant [pattern='/api/v1/**']
+2022-11-15 13:12:15.771  WARN 1104 --- [restartedMain] o.s.s.c.a.web.builders.WebSecurity       : You are asking Spring Security to ignore Ant [pattern='/css/**']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2022-11-15 13:12:15.771  INFO 1104 --- [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will not secure Ant [pattern='/css/**']
+2022-11-15 13:12:15.796  INFO 1104 --- [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@2c1a68ab, org.springframework.security.web.context.SecurityContextPersistenceFilter@2327dc68, org.springframework.security.web.header.HeaderWriterFilter@7fc0838c, org.springframework.security.web.csrf.CsrfFilter@56f4e0e4, org.springframework.security.web.authentication.logout.LogoutFilter@49934ff8, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@adf43b, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@3cff9838, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@425ff320, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@6950fa2c, org.springframework.security.web.session.SessionManagementFilter@425b9a78, org.springframework.security.web.access.ExceptionTranslationFilter@2c746cd4, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@61934c8f]
+2022-11-15 13:12:15.988  INFO 1104 --- [restartedMain] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page template: index
+2022-11-15 13:12:16.618  INFO 1104 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2022-11-15 13:12:16.654  INFO 1104 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2022-11-15 13:12:16.666  INFO 1104 --- [restartedMain] c.a.b.BlogProjectwSpringApplication      : Started BlogProjectwSpringApplication in 4.974 seconds (JVM running for 6.543)
+2022-11-15 13:12:54.435  INFO 1104 --- [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2022-11-15 13:12:54.436  INFO 1104 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2022-11-15 13:12:54.438  INFO 1104 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms
+2022-11-15 13:12:54.536  WARN 1104 --- [http-nio-8080-exec-1] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.web.HttpRequestMethodNotSupportedException: Request method 'GET' not supported]
+2022-11-15 13:15:06.755  INFO 1104 --- [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2022-11-15 13:15:06.758  INFO 1104 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2022-11-15 13:15:06.760  INFO 1104 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
