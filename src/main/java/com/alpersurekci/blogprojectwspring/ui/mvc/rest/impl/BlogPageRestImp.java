@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,8 +24,14 @@ public class BlogPageRestImp implements IBlogRest {
 
     @Override
     @GetMapping("/list")
-    public List<BlogEntity> listBlogs() {
-        return iBlogServices.IndexBlog();
+    public List<BlogDto> listBlogs() {
+        List<BlogEntity> blogEntity = iBlogServices.IndexBlog();
+        List<BlogDto> blogDtos = new ArrayList<>();
+
+        for (int i = 0; i < blogEntity.size(); i++) {
+            blogDtos.add(iBlogServices.blogEntityToDto(blogEntity.get(i)));
+        }
+        return  blogDtos;
     }
 
     @Override

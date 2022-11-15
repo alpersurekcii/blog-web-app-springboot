@@ -104,8 +104,9 @@
 
 <div class="row" th:each="blog: ${blogs_keys}">
     <div class="container px-4 px-lg-5">
-        <div class="row gx-4 mt-2 mb-2">
-            <img style="width:220px ; height:200px;" class="img-fluid" th:src="@{${blog.getPhotosImagePath()}}" alt="">
+        <div th:each="blogent: ${blog_ent}">
+        <div class="row gx-4 mt-2 mb-2" >
+            <img style="width:220px ; height:200px;" class="img-fluid" th:src="@{${blogent.getPhotosImagePath()}}" alt="">
         </div>
         <div class="row mt-ab gx-4 gx-lg-5 justify-content-center">
 
@@ -113,14 +114,14 @@
 
                 <!-- Post preview-->
                 <div class="post-preview">
-                    <a th:href="@{/blog/{id}(id=${blog.getBlogID()})}">
-                        <h2 style="color:black" th:text="${blog.getBlogTitle()}"></h2>
-                        <h3 th:text="${blog.getBlogShort()}" class="post-subtitle"></h3>
+                    <a th:href="@{/blog/{id}(id=${blog_ent})}">
+                        <h2 style="color:black" th:text="${blog.title}"></h2>
+                        <h3 th:text="${blog.blogShort}" class="post-subtitle"></h3>
                     </a>
 
                     <p class="post-meta">
                         Posted by
-                        <p class="post-meta" th:text="${blog.getWrittenBy()}"></p>
+                        <p class="post-meta" th:text="${blogent.writtenBy}"></p>
                     </p>
 
                 </div>
@@ -128,6 +129,8 @@
 
 
             </div>
+
+        </div>
         </div>
     </div>
 </div>

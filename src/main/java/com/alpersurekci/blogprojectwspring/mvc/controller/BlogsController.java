@@ -18,6 +18,8 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.List;
 
 @Log4j2
 @Controller
@@ -113,8 +115,14 @@ public class BlogsController {
 
     @GetMapping("/")
     public String getIndex(Model model){
+        List<BlogEntity> blogEntity = services.IndexBlog();
+        List<BlogDto> blogDtos = new ArrayList<>();
 
-       model.addAttribute("blogs_keys", services.IndexBlog());
+        for (int i = 0; i < blogEntity.size(); i++) {
+            blogDtos.add(services.blogEntityToDto(blogEntity.get(i)));
+        }
+       model.addAttribute("blogs_keys", blogDtos);
+       model.addAttribute("blog_ent", blogEntity);
 
     return "index";
     }

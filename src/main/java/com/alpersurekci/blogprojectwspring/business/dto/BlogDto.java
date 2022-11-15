@@ -26,7 +26,7 @@ public class BlogDto {
 
     private String blogShort;
 
-    private String writingBy;
+    private String writtenBy;
 
 
 

@@ -10,7 +10,7 @@ import java.util.Map;
 
 public interface IBlogRest {
 
-    List<BlogEntity> listBlogs();
+    List<BlogDto> listBlogs();
 
     ResponseEntity<BlogDto> saveBlog(BlogDto blogDto);
 
