@@ -1,11 +1,13 @@
 package com.alpersurekci.blogprojectwspring.business.dto;
 
+import com.alpersurekci.blogprojectwspring.data.entity.Role;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotEmpty;
+import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -26,6 +28,8 @@ public class UserDto {
 
     @NotEmpty(message = " Password can not be empty")
     private String userPassword;
+
+    private Role role;
 
 
 }

@@ -5,8 +5,10 @@ import com.alpersurekci.blogprojectwspring.business.dto.CustomUserDetails;
 import com.alpersurekci.blogprojectwspring.business.dto.UserDto;
 import com.alpersurekci.blogprojectwspring.business.services.IBlogServices;
 import com.alpersurekci.blogprojectwspring.data.entity.BlogEntity;
+import com.alpersurekci.blogprojectwspring.data.entity.Role;
 import com.alpersurekci.blogprojectwspring.data.entity.UserEntity;
 import com.alpersurekci.blogprojectwspring.data.repository.IBlogsRepository;
+import com.alpersurekci.blogprojectwspring.data.repository.IRoleRepository;
 import com.alpersurekci.blogprojectwspring.data.repository.IUserRepository;
 import lombok.extern.log4j.Log4j2;
 import org.apache.tomcat.util.http.fileupload.FileUpload;
@@ -26,6 +28,8 @@ import java.util.Optional;
 @Log4j2
 @Service
 public class BlogsServiceImpl implements IBlogServices {
+    @Autowired
+    IRoleRepository iRoleRepository;
 
     @Autowired
     IUserRepository userRepository;
@@ -52,10 +56,14 @@ public class BlogsServiceImpl implements IBlogServices {
 
     @Override
     public void userSave(UserDto userDto) {
-
+        
         UserEntity userEntity = userDtoToEntity(userDto);
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         userEntity.setUserPassword(bCryptPasswordEncoder.encode(userDto.getUserPassword()));
+        Role role = iRoleRepository.findByName("ADMIN");
+        userEntity.addRole(role);
+
+        //iRoleRepository.save(role);
         userRepository.save(userEntity);
     }
 
@@ -169,6 +177,13 @@ public class BlogsServiceImpl implements IBlogServices {
             }
         }
         return isEq;
+    }
+
+    @Override
+    public List<BlogEntity> listAllBlog() {
+       List<BlogEntity> blogEntities =  blogsRepository.findAll();
+
+       return blogEntities;
     }
 
 

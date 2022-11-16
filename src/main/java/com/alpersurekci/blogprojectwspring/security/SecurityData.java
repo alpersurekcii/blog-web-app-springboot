@@ -38,6 +38,10 @@ public class SecurityData extends WebSecurityConfigurerAdapter {
 
         http
                 .authorizeRequests()
+                .antMatchers("/update/**").hasAnyAuthority("ADMIN", "USER")
+                .antMatchers("/delete/blog/**").hasAnyAuthority("ADMIN", "USER")
+                .antMatchers("/save").hasAnyAuthority("ADMIN", "USER")
+                .antMatchers("/admin/list").hasAnyAuthority("ADMIN")
                 .antMatchers("/login","/register","/homepage","/","/css/**","/blogs-photos/**","/blog/**")
                 .permitAll()
                 .anyRequest()

@@ -8,7 +8,9 @@ import lombok.extern.log4j.Log4j2;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -20,7 +22,7 @@ import java.util.List;
 public class UserEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "userID")
     private Long userID;
 
@@ -38,11 +40,24 @@ public class UserEntity {
     private String userPassword;
 
 
+
     @OneToMany(
             cascade = CascadeType.ALL
     )
     @JoinColumn(name="userID")
     private List<BlogEntity> blogEntityList = new ArrayList<>();
 
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "users_roles",
+            joinColumns = @JoinColumn(name= "user_id"),
+            inverseJoinColumns = @JoinColumn(name="role_id")
+            )
+    private Set<Role> roles = new HashSet<>();
+
+    public void addRole(Role role){
+        this.roles.add(role);
+    }
 
 }
+

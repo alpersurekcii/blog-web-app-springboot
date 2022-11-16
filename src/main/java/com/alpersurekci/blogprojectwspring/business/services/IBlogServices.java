@@ -35,4 +35,5 @@ public interface IBlogServices {
 
     public boolean userControl(Long id);
 
+    public List<BlogEntity> listAllBlog();
 }

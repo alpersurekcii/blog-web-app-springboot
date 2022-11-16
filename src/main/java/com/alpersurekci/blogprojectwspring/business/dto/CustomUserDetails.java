@@ -1,31 +1,44 @@
 package com.alpersurekci.blogprojectwspring.business.dto;
 
+import com.alpersurekci.blogprojectwspring.data.entity.Role;
+import com.alpersurekci.blogprojectwspring.data.entity.UserEntity;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
+import java.util.Set;
 
 public class CustomUserDetails implements UserDetails {
 
-    private UserDto userDto;
+    private UserEntity userEntity;
 
-    public CustomUserDetails(UserDto userDto) {
-        this.userDto = userDto;
+    public CustomUserDetails(UserEntity userDto) {
+        this.userEntity = userDto;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        Set<Role> roles = userEntity.getRoles();
+        List<SimpleGrantedAuthority> authorities = new ArrayList<>();
+
+        for (Role role : roles) {
+            authorities.add(new SimpleGrantedAuthority(role.getName()));
+        }
+
+        return authorities;
     }
 
     @Override
     public String getPassword() {
-        return userDto.getUserPassword();
+        return userEntity.getUserPassword();
     }
 
     @Override
     public String getUsername() {
-       return userDto.getUserEmail();
+       return userEntity.getUserEmail();
     }
 
     @Override
@@ -50,10 +63,10 @@ public class CustomUserDetails implements UserDetails {
 
 
     public String getFullName(){
-        return userDto.getUserName();
+        return userEntity.getUserName();
     }
 
     public  Long getID(){
-        return userDto.getUserId();
+        return userEntity.getUserID();
     }
 }

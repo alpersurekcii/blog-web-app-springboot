@@ -52,6 +52,14 @@ public class BlogsController {
         return "redirect:/";
     }
 
+    @GetMapping("/admin/list")
+    public String listAllBlog(Model model){
+
+
+        model.addAttribute("blogs_list", services.listAllBlog());
+        return "listallblog";
+    }
+
 
 
     @GetMapping("/delete/blog/{id}")

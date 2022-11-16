@@ -24,6 +24,6 @@ public class CustomUserDetailsService implements UserDetailsService {
         if(username==null){
             log.info("kullanıcı bulunaadı");
         }
-        return new CustomUserDetails(blogServices.userEntityToDto(userEntity));
+        return new CustomUserDetails(userEntity);
     }
 }
