@@ -25,13 +25,8 @@ public class BlogPageRestImp implements IBlogRest {
     @Override
     @GetMapping("/list")
     public List<BlogDto> listBlogs() {
-        List<BlogEntity> blogEntity = iBlogServices.IndexBlog();
-        List<BlogDto> blogDtos = new ArrayList<>();
 
-        for (int i = 0; i < blogEntity.size(); i++) {
-            blogDtos.add(iBlogServices.blogEntityToDto(blogEntity.get(i)));
-        }
-        return  blogDtos;
+        return  iBlogServices.IndexBlog();
     }
 
     @Override
@@ -64,9 +59,8 @@ public class BlogPageRestImp implements IBlogRest {
     @Override
     @GetMapping("/show/{id}")
     public BlogDto showBlog(@PathVariable(name="id") Long id) {
-        BlogEntity blogEntity = iBlogServices.showBlogById(id);
-        BlogDto blogDto  = iBlogServices.blogEntityToDto(blogEntity);
-        return blogDto;
+
+        return iBlogServices.showBlogById(id);
 
 
 

@@ -103,10 +103,10 @@
 
 
 <br><br>
-<div class="row" th:each="blog: ${blogInf} " >
+<div class="row" th:each="blog_key:${blogInf}" >
     <div class="row">
         <div class="col-lg-9 col-sm-4 mx-auto">
-            <img style="width:900px ; height:400px;" class="img-fluid" th:src="@{${blogEnt.getPhotosImagePath()}}" alt="">
+            <img style="width:900px ; height:400px;" class="img-fluid" th:src="@{${blogInf.getPhotosImagePath()}}" alt="">
         </div>
         <br><br><br>
         <div class="col-lg-8 mx-auto">
@@ -116,7 +116,7 @@
         </div>
         <div style="text-align: right">
             <p  >Written By </p>
-            <p  th:text="${blogEnt.writtenBy}"></p>
+            <p  th:text="${blogInf.writtenBy}"></p>
         </div>
 
         <hr>

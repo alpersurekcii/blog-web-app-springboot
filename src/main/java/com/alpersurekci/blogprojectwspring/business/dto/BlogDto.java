@@ -14,6 +14,8 @@ import javax.validation.constraints.NotEmpty;
 @Builder
 public class BlogDto {
 
+    private Long blogID;
+
     @NotEmpty(message = "Blog's title can not be empty.")
     private String title;
 
@@ -27,6 +29,13 @@ public class BlogDto {
     private String blogShort;
 
     private String writtenBy;
+
+    @Transient
+    public String getPhotosImagePath() {
+        if (blogImage == null ) return null;
+
+        return "/blogs-photos/" + blogID + "/" + blogImage;
+    }
 
 
 

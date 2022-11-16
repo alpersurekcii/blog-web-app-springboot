@@ -45,11 +45,11 @@ public class BlogEntity {
 
     @Column(name="written_by")
     private String writtenBy;
-
+/*
     @Transient
     public String getPhotosImagePath() {
         if (blogImage == null || blogID == null) return null;
 
         return "/blogs-photos/" + blogID + "/" + blogImage;
-    }
+    }*/
 }

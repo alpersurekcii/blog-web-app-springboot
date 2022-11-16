@@ -29,9 +29,9 @@ public interface IBlogServices {
 
     public BlogEntity updateBlogById(Long id, BlogDto blogDto);
 
-    public BlogEntity showBlogById(Long id);
+    public BlogDto showBlogById(Long id);
 
-    public List<BlogEntity> IndexBlog();
+    public List<BlogDto> IndexBlog();
 
     public boolean userControl(Long id);
 

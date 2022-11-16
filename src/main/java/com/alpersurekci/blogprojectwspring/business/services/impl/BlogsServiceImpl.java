@@ -137,29 +137,32 @@ public class BlogsServiceImpl implements IBlogServices {
     }
 
     @Override
-    public BlogEntity showBlogById(Long id) {
+    public BlogDto showBlogById(Long id) {
 
 
         Optional<BlogEntity> blogEntity = blogsRepository.findById(id);
-         BlogEntity blogEntity1 = new BlogEntity();
+
+        BlogDto blogDto;
         if (blogEntity.isPresent()) {
 
-
-            blogEntity1 = blogEntity.get();
+             blogDto = blogEntityToDto(blogEntity.get());
 
         } else {
             log.info("Blog bulunamadı");
-            blogEntity1= null;
+            blogDto= null;
         }
-        return blogEntity1;
+        return blogDto;
     }
 
     @Override
-    public List<BlogEntity> IndexBlog() {
+    public List<BlogDto> IndexBlog() {
         List<BlogEntity> blogEntity = blogsRepository.findAll();
+        List<BlogDto> blogDtos = new ArrayList<>();
 
-       // log.info(blogEntity1.get(0).getUserEntity());
-        return blogEntity;
+        for (int i = 0; i < blogEntity.size(); i++) {
+            blogDtos.add(blogEntityToDto(blogEntity.get(i)));
+        }
+        return blogDtos;
     }
 
     @Override

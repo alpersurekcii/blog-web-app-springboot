@@ -70,8 +70,8 @@ public class BlogsController {
 
     @GetMapping("/update/blog/{id}")
     public String getUpdateBlogById(@PathVariable(name="id")Long id, Model model){
-        BlogEntity blogEntity = services.showBlogById(id);
-        BlogDto blogDto = services.blogEntityToDto(blogEntity);
+
+        BlogDto blogDto = services.showBlogById(id);
         model.addAttribute("blog_key", blogDto);
         return "blogupdate";
     }
@@ -106,31 +106,22 @@ public class BlogsController {
 
     @GetMapping("/blog/{id}")
     public String getBlogDetail(@PathVariable(name="id")Long id, Model model){
-        BlogEntity blogEntity = services.showBlogById(id);
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if(blogEntity != null) {
-            BlogDto blogDto = services.blogEntityToDto(blogEntity);
+        BlogDto blogDto = services.showBlogById(id);
+
             model.addAttribute("blogInf", blogDto);
-            model.addAttribute("blogEnt", blogEntity );
 
             return "ShowBlog";
-        }else {
-            return "BlogNotFound";
-        }
+
+
+
 
 
     }
 
     @GetMapping("/")
     public String getIndex(Model model){
-        List<BlogEntity> blogEntity = services.IndexBlog();
-        List<BlogDto> blogDtos = new ArrayList<>();
 
-        for (int i = 0; i < blogEntity.size(); i++) {
-            blogDtos.add(services.blogEntityToDto(blogEntity.get(i)));
-        }
-       model.addAttribute("blogs_keys", blogDtos);
-       model.addAttribute("blog_ent", blogEntity);
+       model.addAttribute("blogs_keys", services.IndexBlog());
 
     return "index";
     }
