@@ -23,7 +23,7 @@ public interface IBlogServices {
 
     public BlogEntity blogDtoToEntity(BlogDto blogDto);
 
-    public List<BlogEntity> findAllBlogsById();
+    public List<BlogDto> findAllBlogsById();
 
     public ResponseEntity<BlogDto> deleteBlogById(Long id);
 
@@ -35,5 +35,7 @@ public interface IBlogServices {
 
     public boolean userControl(Long id);
 
-    public List<BlogEntity> listAllBlog();
+    public List<BlogDto> listAllBlog();
+
+    public List<BlogDto> convertEntityToDto(List<BlogEntity> blogEntities);
 }

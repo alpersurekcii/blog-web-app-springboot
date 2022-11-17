@@ -11,17 +11,17 @@ import com.alpersurekci.blogprojectwspring.data.repository.IBlogsRepository;
 import com.alpersurekci.blogprojectwspring.data.repository.IRoleRepository;
 import com.alpersurekci.blogprojectwspring.data.repository.IUserRepository;
 import lombok.extern.log4j.Log4j2;
-import org.apache.tomcat.util.http.fileupload.FileUpload;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpMessage;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -42,6 +42,7 @@ public class BlogsServiceImpl implements IBlogServices {
 
 
     CustomUserDetails customUserDetails;
+
     @Override
     public UserEntity userDtoToEntity(UserDto userDto) {
         UserEntity userEntity = modelMapper.map(userDto, UserEntity.class);
@@ -56,7 +57,7 @@ public class BlogsServiceImpl implements IBlogServices {
 
     @Override
     public void userSave(UserDto userDto) {
-        
+
         UserEntity userEntity = userDtoToEntity(userDto);
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         userEntity.setUserPassword(bCryptPasswordEncoder.encode(userDto.getUserPassword()));
@@ -76,7 +77,7 @@ public class BlogsServiceImpl implements IBlogServices {
 
         blogEntity.setWrittenBy(username);
         blogEntity.setUserEntity(userEntity);
-       return blogsRepository.save(blogEntity);
+        return blogsRepository.save(blogEntity);
 
 
     }
@@ -94,13 +95,14 @@ public class BlogsServiceImpl implements IBlogServices {
     }
 
     @Override
-    public List<BlogEntity> findAllBlogsById() {
+    public List<BlogDto> findAllBlogsById() {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String username = ((UserDetails) principal).getUsername();
         UserEntity userEntity = userRepository.findAllByUserEmailEquals(username);
         Long id = userEntity.getUserID();
         List<BlogEntity> blogEntities = blogsRepository.findAllByUserEntity(id);
-        return blogEntities;
+
+        return convertEntityToDto(blogEntities);
     }
 
     @Override
@@ -119,18 +121,18 @@ public class BlogsServiceImpl implements IBlogServices {
     @Override
     public BlogEntity updateBlogById(Long id, BlogDto blogDto) {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String username= ((UserDetails)principal).getUsername();
+        String username = ((UserDetails) principal).getUsername();
         Long userID = userRepository.findAllByUserEmailEquals(username).getUserID();
         Optional<BlogEntity> blogEntity = blogsRepository.findById(id);
         if (blogEntity.isPresent()) {
-           if(blogEntity.get().getUserEntity().getUserID() == userID){
-            blogEntity.get().setBlogTitle(blogDto.getTitle());
-            blogEntity.get().setBlogImage(blogDto.getBlogImage());
-            blogEntity.get().setBlogContain(blogDto.getBlogContain());
-            blogEntity.get().setBlogShort(blogDto.getBlogShort());
-            log.info(blogEntity.get());
-            blogsRepository.save(blogEntity.get());
-           }
+            if (blogEntity.get().getUserEntity().getUserID() == userID || ((UserDetails) principal).getAuthorities().toString() == "ADMIN") {
+                blogEntity.get().setBlogTitle(blogDto.getTitle());
+                blogEntity.get().setBlogImage(blogDto.getBlogImage());
+                blogEntity.get().setBlogContain(blogDto.getBlogContain());
+                blogEntity.get().setBlogShort(blogDto.getBlogShort());
+                log.info(blogEntity.get());
+                blogsRepository.save(blogEntity.get());
+            }
         }
 
         return blogEntity.get();
@@ -145,11 +147,11 @@ public class BlogsServiceImpl implements IBlogServices {
         BlogDto blogDto;
         if (blogEntity.isPresent()) {
 
-             blogDto = blogEntityToDto(blogEntity.get());
+            blogDto = blogEntityToDto(blogEntity.get());
 
         } else {
             log.info("Blog bulunamadı");
-            blogDto= null;
+            blogDto = null;
         }
         return blogDto;
     }
@@ -167,26 +169,33 @@ public class BlogsServiceImpl implements IBlogServices {
 
     @Override
     public boolean userControl(Long id) {
-        boolean isEq=false ;
+        boolean isEq = false;
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String username = ((UserDetails)principal).getUsername();
+        String username = ((UserDetails) principal).getUsername();
+        Collection<SimpleGrantedAuthority> list = (Collection<SimpleGrantedAuthority>) ((UserDetails) principal).getAuthorities();
+        String auth = list.iterator().next().toString();
         Long userID = userRepository.findAllByUserEmailEquals(username).getUserID();
         Optional<BlogEntity> blogEntity = blogsRepository.findById(id);
-        if(blogEntity.isPresent()){
-            if(blogEntity.get().getUserEntity().getUserID()==userID){
-               isEq = true;
-            }else{
-                isEq = false;
-            }
-        }
+
+        isEq = blogEntity.get().getUserEntity().getUserID() == userID || auth.equals("ADMIN");
+
         return isEq;
     }
 
     @Override
-    public List<BlogEntity> listAllBlog() {
-       List<BlogEntity> blogEntities =  blogsRepository.findAll();
+    public List<BlogDto> listAllBlog() {
 
-       return blogEntities;
+        return convertEntityToDto(blogsRepository.findAll());
+    }
+
+    @Override
+    public List<BlogDto> convertEntityToDto(List<BlogEntity> blogEntities) {
+
+        List<BlogDto> blogDtos = new ArrayList<>();
+        for (int i = 0; i < blogEntities.size(); i++) {
+            blogDtos.add(blogEntityToDto(blogEntities.get(i)));
+        }
+        return blogDtos;
     }
 
 

@@ -56,7 +56,7 @@ public class BlogsController {
     public String listAllBlog(Model model){
 
 
-        model.addAttribute("blogs_list", services.listAllBlog());
+        model.addAttribute("blogs_key", services.IndexBlog());
         return "listallblog";
     }
 
@@ -91,7 +91,7 @@ public class BlogsController {
 
     @GetMapping("/update/control/{id}")
     public String isUserUpdateBlog(@PathVariable(name="id")Long id, BlogDto blogDto, BindingResult bindingResult){
-        String rt = "";
+        String rt = "error";
         if(bindingResult.hasErrors()){
             log.info("Update kontrolünde hata var");
         }
@@ -128,7 +128,8 @@ public class BlogsController {
 
     @GetMapping("/list/blog")
     public String getBlogById(Model model){
-        model.addAttribute("blogs_list", services.findAllBlogsById());
+        List<BlogDto> blogDto = services.findAllBlogsById();
+        model.addAttribute("blogs_list", blogDto);
         return "list";
     }
 }

@@ -105,9 +105,9 @@
 
                 <!-- Post preview-->
                 <div class="post-preview">
-                    <a th:href="@{/blog/{id}(id=${blog.getBlogID()})}">
-                        <h2 style="color:black" th:text="${blog.getBlogTitle()}"></h2>
-                        <h3 th:text="${blog.getBlogShort()}" class="post-subtitle"></h3>
+                    <a th:href="@{/blog/{id}(id=${blog.title})}">
+                        <h2 style="color:black" th:text="${blog.title}"></h2>
+                        <h3 th:text="${blog.blogShort}" class="post-subtitle"></h3>
                     </a>
 
                     <p class="post-meta">
@@ -126,8 +126,6 @@
                         <i class="fas fa-trash"></i> Delete Blog</a>
 
                        </div>
-
-
 
 
                 <hr class="my-4" />
