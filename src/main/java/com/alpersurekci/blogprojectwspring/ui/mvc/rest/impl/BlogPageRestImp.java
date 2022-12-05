@@ -2,13 +2,11 @@ package com.alpersurekci.blogprojectwspring.ui.mvc.rest.impl;
 
 import com.alpersurekci.blogprojectwspring.business.dto.BlogDto;
 import com.alpersurekci.blogprojectwspring.business.services.IBlogServices;
-import com.alpersurekci.blogprojectwspring.data.entity.BlogEntity;
 import com.alpersurekci.blogprojectwspring.ui.mvc.rest.IBlogRest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,7 +24,7 @@ public class BlogPageRestImp implements IBlogRest {
     @GetMapping("/list")
     public List<BlogDto> listBlogs() {
 
-        return  iBlogServices.IndexBlog();
+        return iBlogServices.IndexBlog();
     }
 
     @Override
@@ -40,7 +38,7 @@ public class BlogPageRestImp implements IBlogRest {
 
     @Override
     @PutMapping("/update/blog/{id}")
-    public ResponseEntity<Map<String, Boolean>> updateBlog(@PathVariable(name="id") Long id, BlogDto blogDto) {
+    public ResponseEntity<Map<String, Boolean>> updateBlog(@PathVariable(name = "id") Long id, BlogDto blogDto) {
         iBlogServices.updateBlogById(id, blogDto);
         Map<String, Boolean> response = new HashMap<>();
         response.put("Updated", Boolean.TRUE);
@@ -49,7 +47,7 @@ public class BlogPageRestImp implements IBlogRest {
 
     @Override
     @DeleteMapping("/delete/blog/{id}")
-    public ResponseEntity<Map<String, Boolean>> deleteBlog(@PathVariable(name="id") Long id) {
+    public ResponseEntity<Map<String, Boolean>> deleteBlog(@PathVariable(name = "id") Long id) {
         iBlogServices.deleteBlogById(id);
         Map<String, Boolean> response = new HashMap<>();
         response.put("Deleted", Boolean.TRUE);
@@ -58,10 +56,9 @@ public class BlogPageRestImp implements IBlogRest {
 
     @Override
     @GetMapping("/show/{id}")
-    public BlogDto showBlog(@PathVariable(name="id") Long id) {
+    public BlogDto showBlog(@PathVariable(name = "id") Long id) {
 
         return iBlogServices.showBlogById(id);
-
 
 
     }

@@ -11,31 +11,29 @@ import java.util.List;
 
 public interface IBlogServices {
 
-    public UserEntity userDtoToEntity(UserDto userDto);
 
-    public UserDto userEntityToDto(UserEntity userEntity);
+    void userSave(UserDto userDto);
 
-    public void userSave(UserDto userDto);
+    BlogEntity saveBlog(BlogDto blogDto);
 
-    public BlogEntity saveBlog(BlogDto blogDto);
 
-    public BlogDto blogEntityToDto(BlogEntity blogEntity);
+    List<BlogDto> findAllBlogsById();
 
-    public BlogEntity blogDtoToEntity(BlogDto blogDto);
+    ResponseEntity<BlogDto> deleteBlogById(Long id);
 
-    public List<BlogDto> findAllBlogsById();
+    BlogEntity updateBlogById(Long id, BlogDto blogDto);
 
-    public ResponseEntity<BlogDto> deleteBlogById(Long id);
+    BlogDto showBlogById(Long id);
 
-    public BlogEntity updateBlogById(Long id, BlogDto blogDto);
+    List<BlogDto> IndexBlog();
 
-    public BlogDto showBlogById(Long id);
+    boolean userControl(Long id);
 
-    public List<BlogDto> IndexBlog();
+    List<BlogDto> listAllBlog();
 
-    public boolean userControl(Long id);
 
-    public List<BlogDto> listAllBlog();
+    UserEntity userDtoToEntity(UserDto userDto);
 
-    public List<BlogDto> convertEntityToDto(List<BlogEntity> blogEntities);
+    UserDto userEntityToDto(UserEntity userEntity);
+
 }

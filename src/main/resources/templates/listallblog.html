@@ -1,46 +1,22 @@
 <!doctype html>
-<html th:lang="${#locale.language}" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html th:lang="${#locale.language}" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:th="http://www.thymeleaf.org">
 
-<title>Blog</title>
-
-<meta charset="utf-8"/>
-
-<meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
-<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
-    <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z"/>
-</svg>
-
-<link href="https://fonts.googleapis.com/css2?family=Crimson+Text&family=Quicksand:wght@300&display=swap"
-      rel="stylesheet">
-
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" rel="stylesheet"/>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
-
-<!-- jquery-->
-<link href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css" rel="stylesheet">
-<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
-<script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
-<link rel="stylesheet" th:href="@{/css/styles.css}"
-      type="text/css" media="screen" >
-<style>
-    .mt-ab{
-        margin-top: -10.75rem !important;
-    }
-</style>
-</head>
+<div th:replace="header::head1"></div>
 
 <body class="container bg-light  ">
 <!-- start codes -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
     <div class="container">
         <a class="navbar-brand" href="/">My Blog App</a>
-        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <button aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"
+                class="navbar-toggler navbar-toggler-right" data-target="#navbarResponsive" data-toggle="collapse"
+                type="button">
             Menu
             <i class="fa fa-bars"></i>
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
-            <ul class="navbar-nav "  >
+            <ul class="navbar-nav ">
                 <li class="nav-item">
                     <a class="nav-link" href="/">Home</a>
                 </li>
@@ -50,28 +26,31 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/contact">Contact</a>
                 </li>
-                <li  class="nav-item" sec:authorize="isAuthenticated()">
+                <li class="nav-item" sec:authorize="isAuthenticated()">
                     <a class="nav-link" href="/save"> New Blog </a>
                 </li>
-                <li class="nav-item"   sec:authorize="isAuthenticated()">
+                <li class="nav-item" sec:authorize="isAuthenticated()">
                     <a class="nav-link" href="/list/blog"> List Your Blog </a>
+                </li>
+                <li class="nav-item" sec:authorize="hasAuthority('ADMIN')">
+                    <a class="nav-link" href="/admin/list">List All Blog</a>
                 </li>
             </ul>
             <ul class="navbar-nav  ">
 
                 <div style="position: relative;  ">
-                    <li class="nav-item"  style="padding-left: 620px;" sec:authorize="isAuthenticated()"  >
-                        <p class="nav"  style="margin:0rem; color:royalblue; display: inline-block; text-align: center;">
+                    <li class="nav-item" sec:authorize="isAuthenticated()" style="padding-left: 580px;">
+                        <p class="nav" style="margin:0rem; color:royalblue; display: inline-block; text-align: center;">
                             Welcome [[${#request.userPrincipal.principal.getFullName}]]
                         </p>
 
                     </li>
                 </div>
-                <li class="nav-item" style="padding-left: 10px;  padding-top: 10px;" sec:authorize="isAuthenticated()">
+                <li class="nav-item" sec:authorize="isAuthenticated()" style="padding-left: 10px;  padding-top: 10px;">
                     <a onclick="if (!confirm(this.getAttribute('data-confirm-delete'))) return false"
                        th:data-confirm-delete="|Are you sure you want to logout?|"
                        th:href="@{/logout}">
-                        <button class="btn btn-primary btn-sm "  >Logout</button>
+                        <button class="btn btn-primary btn-sm ">Logout</button>
                     </a>
                 </li>
             </ul>
@@ -81,13 +60,14 @@
 
 <br>
 
-<header class="masthead" style="background-image: url('https://images.unsplash.com/photo-1499615767948-e6a89ef6060f?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=ff7e0816b73331eb0f205ac167b2094f&auto=format&fit=crop&w=1350&q=80')">
+<header class="masthead"
+        style="background-image: url('https://images.unsplash.com/photo-1499615767948-e6a89ef6060f?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=ff7e0816b73331eb0f205ac167b2094f&auto=format&fit=crop&w=1350&q=80')">
     <div class="container position-relative px-4 px-lg-5">
         <div class="row gx-4 gx-lg-5 justify-content-center">
             <div class="col-md-10 col-lg-8 col-xl-7">
                 <div class="site-heading">
-                    <h1>Clean Blog</h1>
-                    <span class="subheading">A Blog Theme by Start Bootstrap</span>
+                    <h1> Blog</h1>
+
                 </div>
             </div>
         </div>
@@ -97,48 +77,43 @@
 <div class="row" th:each="blog: ${blogs_key}">
     <div class="container px-4 px-lg-5">
         <div class="row gx-4 mt-2 mb-2">
-            <img style="width:220px ; height:200px;" class="img-fluid" th:src="@{${blog.getPhotosImagePath()}}" alt="">
+
         </div>
-        <div class="row mt-ab gx-4 gx-lg-5 justify-content-center">
-
-            <div class="col-md-8 col-lg-6 col-xl-6">
-
-                <!-- Post preview-->
-                <div class="post-preview">
-                    <a th:href="@{/blog/{id}(id=${blog.blogID})}">
-                        <h2 style="color:black" th:text="${blog.title}"></h2>
-                        <h3 th:text="${blog.blogShort}" class="post-subtitle"></h3>
-                    </a>
-
-                    <p class="post-meta">
-                        Posted by
-                    <p class="post-meta" th:text="${blog.writtenBy}"></p>
-                    </p>
-
-                </div>
-                <div  style="padding-left: 40rem;  ">
-
-                    <a sec:authorize="isAuthenticated()" th:href="@{/update/control/{id}(id=${blog.blogID})}" class="btn">
-                        <i class="fas fa-pen"></i> Update Blog</a>
-                    <a onclick="if (!confirm(this.getAttribute('data-confirm-delete'))) return false"
-                       th:data-confirm-delete="|Are you sure you want to delete this blog?|"
-                       sec:authorize="isAuthenticated()" th:href="@{/delete/blog/{id}(id=${blog.blogID})}" class="btn">
-                        <i class="fas fa-trash"></i> Delete Blog</a>
-
-                </div>
 
 
+        <div class="col-md-8 col-lg-6 col-xl-6">
 
+            <!-- Post preview-->
+            <div class="post-preview">
+                <a th:href="@{/blog/{id}(id=${blog.blogID})}">
+                    <h2 style="color:black" th:text="${blog.title}"></h2>
+                    <h3 class="post-subtitle" th:text="${blog.blogShort}"></h3>
+                </a>
 
-                <hr class="my-4" />
+                <p class="post-meta">
+                    Posted by
+                <p class="post-meta" th:text="${blog.writtenBy}"></p>
+                </p>
 
             </div>
+            <div style="padding-left: 40rem;  ">
+
+                <a class="btn" sec:authorize="isAuthenticated()" th:href="@{/update/control/{id}(id=${blog.blogID})}">
+                    <i class="fas fa-pen"></i> Update Blog</a>
+                <a class="btn"
+                   onclick="if (!confirm(this.getAttribute('data-confirm-delete'))) return false"
+                   sec:authorize="isAuthenticated()" th:data-confirm-delete="|Are you sure you want to delete this blog?|" th:href="@{/delete/blog/{id}(id=${blog.blogID})}">
+                    <i class="fas fa-trash"></i> Delete Blog</a>
+
+            </div>
+
+
+            <hr class="my-4"/>
+
         </div>
+
     </div>
 </div>
-
-
-
 
 
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>

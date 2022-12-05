@@ -15,13 +15,12 @@ import javax.servlet.http.HttpServletResponse;
 public class UserLoginController {
 
     @GetMapping("/login")
-    public String getLogin(@RequestParam(value = "error", required = false)String error, Model model){
-        if(error != null){
-            model.addAttribute("login_key","Kullanıcı adı ve şifreniz yanlış");
+    public String getLogin(@RequestParam(value = "error", required = false) String error, Model model) {
+        if (error != null) {
+            model.addAttribute("login_key", "Kullanıcı adı ve şifreniz yanlış");
 
-        }
-        else {
-            model.addAttribute("login_key","lütfen bilgileri giriniz");
+        } else {
+            model.addAttribute("login_key", "lütfen bilgileri giriniz");
         }
         return "login";
     }

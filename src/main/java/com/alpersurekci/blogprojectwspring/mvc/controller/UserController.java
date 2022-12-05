@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import javax.naming.Binding;
 import javax.validation.Valid;
 
 @Controller
@@ -22,18 +21,19 @@ public class UserController {
     IBlogServices services;
 
     @GetMapping("/register")
-    public String getUserRegister(Model model){
-        model.addAttribute("user_register",new UserDto());
+    public String getUserRegister(Model model) {
+        model.addAttribute("user_register", new UserDto());
         return "register";
     }
 
     @PostMapping("/register")
-    public String postUserRegister(@Valid @ModelAttribute("user_register")UserDto userDto, BindingResult bindingResult){
-        if(bindingResult.hasErrors()){
+    public String postUserRegister(@Valid @ModelAttribute("user_register") UserDto userDto, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
             log.info("register sırasında hata meydana geldi");
         }
         services.userSave(userDto);
         return "redicrect:/login";
     }
+
 
 }

@@ -1,24 +1,19 @@
 package com.alpersurekci.blogprojectwspring.mvc.controller;
 
 import com.alpersurekci.blogprojectwspring.business.dto.BlogDto;
-import com.alpersurekci.blogprojectwspring.business.services.FileUploadUtil;
 import com.alpersurekci.blogprojectwspring.business.services.IBlogServices;
-import com.alpersurekci.blogprojectwspring.data.entity.BlogEntity;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.validation.Valid;
 import java.io.IOException;
-import java.security.Principal;
-import java.util.ArrayList;
 import java.util.List;
 
 @Log4j2
@@ -29,31 +24,28 @@ public class BlogsController {
     IBlogServices services;
 
     @GetMapping("/save")
-    public String getBlogs(Model model){
+    public String getBlogs(Model model) {
         model.addAttribute("blog_key", new BlogDto());
         return "save";
     }
 
     //@Valid @ModelAttribute("blog")BlogDto blogDto,
     @PostMapping("/save")
-    public String postSaveBlog(@Valid @ModelAttribute("blog_key")BlogDto blogDto, @RequestParam("fileimage") MultipartFile multipartFile, BindingResult bindingResult) throws IOException {
-        String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
-        if(bindingResult.hasErrors()){
+    public String postSaveBlog(@Valid @ModelAttribute("blog_key") BlogDto blogDto, BindingResult bindingResult) throws IOException {
+
+        if (bindingResult.hasErrors()) {
             log.info("blog kaydetmede hata");
         }
-        String shortest = blogDto.getBlogContain().substring(0,200);
-        blogDto.setBlogImage(fileName);
-        blogDto.setBlogShort(shortest);
 
-      BlogEntity blogEntity =  services.saveBlog(blogDto);
-       String uploadDir = "blogs-photos/" + blogEntity.getBlogID();
 
-        FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
+        services.saveBlog(blogDto);
+
+
         return "redirect:/";
     }
 
     @GetMapping("/admin/list")
-    public String listAllBlog(Model model){
+    public String listAllBlog(Model model) {
 
 
         model.addAttribute("blogs_key", services.IndexBlog());
@@ -61,15 +53,14 @@ public class BlogsController {
     }
 
 
-
     @GetMapping("/delete/blog/{id}")
-    public String deleteBlogById(@PathVariable(name="id")Long id){
+    public String deleteBlogById(@PathVariable(name = "id") Long id) {
         services.deleteBlogById(id);
         return "redirect:/list/blog";
     }
 
     @GetMapping("/update/blog/{id}")
-    public String getUpdateBlogById(@PathVariable(name="id")Long id, Model model){
+    public String getUpdateBlogById(@PathVariable(name = "id") Long id, Model model) {
 
         BlogDto blogDto = services.showBlogById(id);
         model.addAttribute("blog_key", blogDto);
@@ -77,57 +68,48 @@ public class BlogsController {
     }
 
     @PostMapping("/update/{id}")
-    public String updateBlogById(@PathVariable(name="id")Long id, BlogDto blogDto,  @RequestParam("fileimage") MultipartFile multipartFile, Model model) throws IOException {
-        String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
-        String shortest = blogDto.getBlogContain().substring(0,200);
-        blogDto.setBlogImage(fileName);
-        blogDto.setBlogShort(shortest);
-        BlogEntity blogEntity = services.updateBlogById(id,blogDto);
-        String uploadDir = "blogs-photos/" + blogEntity.getBlogID();
+    public String updateBlogById(@PathVariable(name = "id") Long id, BlogDto blogDto) {
 
-        FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
+        services.updateBlogById(id, blogDto);
+
         return "redirect:/list/blog";
     }
 
     @GetMapping("/update/control/{id}")
-    public String isUserUpdateBlog(@PathVariable(name="id")Long id, BlogDto blogDto, BindingResult bindingResult){
+    public String isUserUpdateBlog(@PathVariable(name = "id") Long id, BlogDto blogDto, BindingResult bindingResult) {
         String rt = "error";
-        if(bindingResult.hasErrors()){
+        if (bindingResult.hasErrors()) {
             log.info("Update kontrolünde hata var");
         }
-        if(services.userControl(id)){
-            rt = "redirect:/update/blog/"+id;
-        }
-        else {
+        if (services.userControl(id)) {
+            rt = "redirect:/update/blog/" + id;
+        } else {
             rt = "updateerror";
         }
         return rt;
     }
 
     @GetMapping("/blog/{id}")
-    public String getBlogDetail(@PathVariable(name="id")Long id, Model model){
+    public String getBlogDetail(@PathVariable(name = "id") Long id, Model model) {
         BlogDto blogDto = services.showBlogById(id);
 
-            model.addAttribute("blogInf", blogDto);
+        model.addAttribute("blogInf", blogDto);
 
-            return "ShowBlog";
-
-
-
+        return "ShowBlog";
 
 
     }
 
     @GetMapping("/")
-    public String getIndex(Model model){
+    public String getIndex(Model model) {
 
-       model.addAttribute("blogs_keys", services.IndexBlog());
+        model.addAttribute("blogs_keys", services.IndexBlog());
 
-    return "index";
+        return "index";
     }
 
     @GetMapping("/list/blog")
-    public String getBlogById(Model model){
+    public String getBlogById(Model model) {
         List<BlogDto> blogDto = services.findAllBlogsById();
         model.addAttribute("blogs_list", blogDto);
         return "list";

@@ -2,7 +2,6 @@ package com.alpersurekci.blogprojectwspring.ui.mvc.rest;
 
 
 import com.alpersurekci.blogprojectwspring.business.dto.BlogDto;
-import com.alpersurekci.blogprojectwspring.data.entity.BlogEntity;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;

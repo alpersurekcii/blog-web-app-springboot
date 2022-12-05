@@ -13,7 +13,7 @@ import java.util.Set;
 
 public class CustomUserDetails implements UserDetails {
 
-    private UserEntity userEntity;
+    private final UserEntity userEntity;
 
     public CustomUserDetails(UserEntity userDto) {
         this.userEntity = userDto;
@@ -38,7 +38,7 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public String getUsername() {
-       return userEntity.getUserEmail();
+        return userEntity.getUserEmail();
     }
 
     @Override
@@ -62,11 +62,11 @@ public class CustomUserDetails implements UserDetails {
     }
 
 
-    public String getFullName(){
+    public String getFullName() {
         return userEntity.getUserName();
     }
 
-    public  Long getID(){
+    public Long getID() {
         return userEntity.getUserID();
     }
 }

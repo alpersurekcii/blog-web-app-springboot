@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.extern.log4j.Log4j2;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -32,30 +31,29 @@ public class UserEntity {
     @Column(name = "user_surname")
     private String userSurname;
 
-    @Column(name = "user_email" )
+    @Column(name = "user_email")
     private String userEmail;
 
     @Lob
-    @Column(name="user_password")
+    @Column(name = "user_password")
     private String userPassword;
-
 
 
     @OneToMany(
             cascade = CascadeType.ALL
     )
-    @JoinColumn(name="userID")
+    @JoinColumn(name = "userID")
     private List<BlogEntity> blogEntityList = new ArrayList<>();
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "users_roles",
-            joinColumns = @JoinColumn(name= "user_id"),
-            inverseJoinColumns = @JoinColumn(name="role_id")
-            )
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
     private Set<Role> roles = new HashSet<>();
 
-    public void addRole(Role role){
+    public void addRole(Role role) {
         this.roles.add(role);
     }
 

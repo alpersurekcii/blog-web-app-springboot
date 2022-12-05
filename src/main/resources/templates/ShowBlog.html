@@ -1,6 +1,6 @@
 <!doctype html>
-<html th:lang="${#locale.language}" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html th:lang="${#locale.language}" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:th="http://www.thymeleaf.org">
 
 <title>Show Blog</title>
 
@@ -19,8 +19,8 @@
 <link href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css" rel="stylesheet">
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
-<link   th:href="@{/css/styles.css}"
-        rel="stylesheet" type="text/css" media="screen"/>
+<link media="screen"
+      rel="stylesheet" th:href="@{/css/styles.css}" type="text/css"/>
 <style>
     input[type=checkbox]:checked + label.strikethrough {
         text-decoration: line-through;
@@ -51,12 +51,14 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
     <div class="container">
         <a class="navbar-brand" href="/">My Blog App</a>
-        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <button aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"
+                class="navbar-toggler navbar-toggler-right" data-target="#navbarResponsive" data-toggle="collapse"
+                type="button">
             Menu
             <i class="fa fa-bars"></i>
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
-            <ul class="navbar-nav "  >
+            <ul class="navbar-nav ">
                 <li class="nav-item">
                     <a class="nav-link" href="/">Home</a>
                 </li>
@@ -66,33 +68,36 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/contact">Contact</a>
                 </li>
-                <li  class="nav-item" sec:authorize="isAuthenticated()">
+                <li class="nav-item" sec:authorize="isAuthenticated()">
                     <a class="nav-link" href="/save"> New Blog </a>
                 </li>
-                <li class="nav-item"   sec:authorize="isAuthenticated()">
+                <li class="nav-item" sec:authorize="isAuthenticated()">
                     <a class="nav-link" href="/list/blog"> List Your Blog </a>
+                </li>
+                <li class="nav-item" sec:authorize="hasAuthority('ADMIN')">
+                    <a class="nav-link" href="/admin/list">List All Blog</a>
                 </li>
             </ul>
             <ul class="navbar-nav  ">
-                <li  class="nav-item "  sec:authorize="!isAuthenticated()" style="padding-left: 650px; padding-top:10px;">
-                    <a class="nav-link"   href="/login">Login</a>
+                <li class="nav-item " sec:authorize="!isAuthenticated()" style="padding-left: 650px; padding-top:10px;">
+                    <a class="nav-link" href="/login">Login</a>
                 </li>
-                <li class="nav-item" style="padding-left: 35px;" sec:authorize="!isAuthenticated()" >
-                    <a class="btn btn-primary"  href="/register">Register</a>
+                <li class="nav-item" sec:authorize="!isAuthenticated()" style="padding-left: 35px;">
+                    <a class="btn btn-primary" href="/register">Register</a>
                 </li>
                 <div style="position: relative;  ">
-                    <li class="nav-item"  style="padding-left: 620px;" sec:authorize="isAuthenticated()"  >
-                        <p class="nav"  style="margin:0rem; color:royalblue; display: inline-block; text-align: center;">
+                    <li class="nav-item" sec:authorize="isAuthenticated()" style="padding-left: 580px;">
+                        <p class="nav" style="margin:0rem; color:royalblue; display: inline-block; text-align: center;">
                             Welcome [[${#request.userPrincipal.principal.getFullName}]]
                         </p>
 
                     </li>
                 </div>
-                <li class="nav-item" style="padding-left: 10px;  padding-top: 10px;" sec:authorize="isAuthenticated()">
+                <li class="nav-item" sec:authorize="isAuthenticated()" style="padding-left: 10px;  padding-top: 10px;">
                     <a onclick="if (!confirm(this.getAttribute('data-confirm-delete'))) return false"
                        th:data-confirm-delete="|Are you sure you want to logout?|"
                        th:href="@{/logout}">
-                        <button class="btn btn-primary btn-sm "  >Logout</button>
+                        <button class="btn btn-primary btn-sm ">Logout</button>
                     </a>
                 </li>
             </ul>
@@ -101,34 +106,28 @@
 </nav>
 
 
-
-<br><br>
-<div class="row" th:each="blog_key:${blogInf}" >
+<br><br><br>
+<div class="container" th:each="blog_key:${blogInf}">
     <div class="row">
-        <div class="col-lg-9 col-sm-4 mx-auto">
-            <img style="width:900px ; height:400px;" class="img-fluid" th:src="@{${blogInf.getPhotosImagePath()}}" alt="">
-        </div>
-        <br><br><br>
-        <div class="col-lg-8 mx-auto">
+
+
+        <div class="col-lg-8 offset-md-2">
             <h2 style="color:black" th:text="${blogInf.title}"></h2>
 
-            <p th:text="${blogInf.blogContain}"></p>
+            <p th:utext="${blogInf.blogContain}"></p>
         </div>
         <div style="text-align: right">
-            <p  >Written By </p>
-            <p  th:text="${blogInf.writtenBy}"></p>
+            <p>Written By </p>
+            <p th:text="${blogInf.writtenBy}"></p>
         </div>
 
         <hr>
-    </a>
+        </a>
     </div>
 </div>
 
 
 <br>
-
-
-
 
 
 </div>

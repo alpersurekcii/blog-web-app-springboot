@@ -1,7 +1,6 @@
 package com.alpersurekci.blogprojectwspring.business.services.impl;
 
 import com.alpersurekci.blogprojectwspring.business.dto.BlogDto;
-import com.alpersurekci.blogprojectwspring.business.dto.CustomUserDetails;
 import com.alpersurekci.blogprojectwspring.business.dto.UserDto;
 import com.alpersurekci.blogprojectwspring.business.services.IBlogServices;
 import com.alpersurekci.blogprojectwspring.data.entity.BlogEntity;
@@ -10,6 +9,7 @@ import com.alpersurekci.blogprojectwspring.data.entity.UserEntity;
 import com.alpersurekci.blogprojectwspring.data.repository.IBlogsRepository;
 import com.alpersurekci.blogprojectwspring.data.repository.IRoleRepository;
 import com.alpersurekci.blogprojectwspring.data.repository.IUserRepository;
+import com.alpersurekci.blogprojectwspring.mapper.PostMapper;
 import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,10 +20,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Log4j2
 @Service
@@ -41,8 +41,6 @@ public class BlogsServiceImpl implements IBlogServices {
     ModelMapper modelMapper;
 
 
-    CustomUserDetails customUserDetails;
-
     @Override
     public UserEntity userDtoToEntity(UserDto userDto) {
         UserEntity userEntity = modelMapper.map(userDto, UserEntity.class);
@@ -55,16 +53,17 @@ public class BlogsServiceImpl implements IBlogServices {
         return userDto;
     }
 
+
     @Override
     public void userSave(UserDto userDto) {
 
         UserEntity userEntity = userDtoToEntity(userDto);
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         userEntity.setUserPassword(bCryptPasswordEncoder.encode(userDto.getUserPassword()));
-        Role role = iRoleRepository.findByName("ADMIN");
+        Role role = iRoleRepository.findByName("USER");
         userEntity.addRole(role);
 
-        //iRoleRepository.save(role);
+        iRoleRepository.save(role);
         userRepository.save(userEntity);
     }
 
@@ -73,7 +72,7 @@ public class BlogsServiceImpl implements IBlogServices {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String username = ((UserDetails) principal).getUsername();
         UserEntity userEntity = userRepository.findAllByUserEmailEquals(username);
-        BlogEntity blogEntity = blogDtoToEntity(blogDto);
+        BlogEntity blogEntity = PostMapper.mapToBlogEntity(blogDto);
 
         blogEntity.setWrittenBy(username);
         blogEntity.setUserEntity(userEntity);
@@ -82,17 +81,6 @@ public class BlogsServiceImpl implements IBlogServices {
 
     }
 
-    @Override
-    public BlogDto blogEntityToDto(BlogEntity blogEntity) {
-        BlogDto blogDto = modelMapper.map(blogEntity, BlogDto.class);
-        return blogDto;
-    }
-
-    @Override
-    public BlogEntity blogDtoToEntity(BlogDto blogDto) {
-        BlogEntity blogEntity = modelMapper.map(blogDto, BlogEntity.class);
-        return blogEntity;
-    }
 
     @Override
     public List<BlogDto> findAllBlogsById() {
@@ -101,8 +89,9 @@ public class BlogsServiceImpl implements IBlogServices {
         UserEntity userEntity = userRepository.findAllByUserEmailEquals(username);
         Long id = userEntity.getUserID();
         List<BlogEntity> blogEntities = blogsRepository.findAllByUserEntity(id);
+        return blogEntities.stream().map(PostMapper::mapToBlogDto).collect(Collectors.toList());
 
-        return convertEntityToDto(blogEntities);
+
     }
 
     @Override
@@ -111,7 +100,7 @@ public class BlogsServiceImpl implements IBlogServices {
         BlogDto blogDto = new BlogDto();
         if (blogEntity.isPresent()) {
             blogsRepository.deleteById(id);
-            blogDto = blogEntityToDto(blogEntity.get());
+            blogDto = PostMapper.mapToBlogDto(blogEntity.get());
         } else {
             log.info("can't delete");
         }
@@ -126,8 +115,8 @@ public class BlogsServiceImpl implements IBlogServices {
         Optional<BlogEntity> blogEntity = blogsRepository.findById(id);
         if (blogEntity.isPresent()) {
             if (blogEntity.get().getUserEntity().getUserID() == userID || ((UserDetails) principal).getAuthorities().toString() == "ADMIN") {
+
                 blogEntity.get().setBlogTitle(blogDto.getTitle());
-                blogEntity.get().setBlogImage(blogDto.getBlogImage());
                 blogEntity.get().setBlogContain(blogDto.getBlogContain());
                 blogEntity.get().setBlogShort(blogDto.getBlogShort());
                 log.info(blogEntity.get());
@@ -147,7 +136,7 @@ public class BlogsServiceImpl implements IBlogServices {
         BlogDto blogDto;
         if (blogEntity.isPresent()) {
 
-            blogDto = blogEntityToDto(blogEntity.get());
+            blogDto = PostMapper.mapToBlogDto(blogEntity.get());
 
         } else {
             log.info("Blog bulunamadı");
@@ -159,12 +148,9 @@ public class BlogsServiceImpl implements IBlogServices {
     @Override
     public List<BlogDto> IndexBlog() {
         List<BlogEntity> blogEntity = blogsRepository.findAll();
-        List<BlogDto> blogDtos = new ArrayList<>();
 
-        for (int i = 0; i < blogEntity.size(); i++) {
-            blogDtos.add(blogEntityToDto(blogEntity.get(i)));
-        }
-        return blogDtos;
+
+        return blogEntity.stream().map(PostMapper::mapToBlogDto).collect(Collectors.toList());
     }
 
     @Override
@@ -184,18 +170,9 @@ public class BlogsServiceImpl implements IBlogServices {
 
     @Override
     public List<BlogDto> listAllBlog() {
+        List<BlogEntity> blogEntities = blogsRepository.findAll();
+        return blogEntities.stream().map(PostMapper::mapToBlogDto).collect(Collectors.toList());
 
-        return convertEntityToDto(blogsRepository.findAll());
-    }
-
-    @Override
-    public List<BlogDto> convertEntityToDto(List<BlogEntity> blogEntities) {
-
-        List<BlogDto> blogDtos = new ArrayList<>();
-        for (int i = 0; i < blogEntities.size(); i++) {
-            blogDtos.add(blogEntityToDto(blogEntities.get(i)));
-        }
-        return blogDtos;
     }
 
 

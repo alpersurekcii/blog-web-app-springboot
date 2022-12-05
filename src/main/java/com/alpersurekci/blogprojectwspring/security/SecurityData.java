@@ -21,12 +21,12 @@ public class SecurityData extends WebSecurityConfigurerAdapter {
         return new CustomUserDetailsService();
     }
 
-    public BCryptPasswordEncoder passwordEncoder(){
+    public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
     @Bean
-    public DaoAuthenticationProvider authenticationProvider(){
+    public DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
         authenticationProvider.setUserDetailsService(userDetailsService());
         authenticationProvider.setPasswordEncoder(passwordEncoder());
@@ -42,7 +42,7 @@ public class SecurityData extends WebSecurityConfigurerAdapter {
                 .antMatchers("/delete/blog/**").hasAnyAuthority("ADMIN", "USER")
                 .antMatchers("/save").hasAnyAuthority("ADMIN", "USER")
                 .antMatchers("/admin/list").hasAnyAuthority("ADMIN")
-                .antMatchers("/login","/register","/homepage","/","/css/**","/blogs-photos/**","/blog/**")
+                .antMatchers("/login", "/register", "/homepage", "/", "/css/**", "/blogs-photos/**", "/blog/**")
                 .permitAll()
                 .anyRequest()
                 .authenticated()
@@ -66,7 +66,7 @@ public class SecurityData extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) throws Exception {
         web
                 .ignoring()
-                .antMatchers("/h2-console/**","/register","/public/**", "/api/v1/**"
-                ,"/css/**");
+                .antMatchers("/h2-console/**", "/register", "/public/**", "/api/v1/**"
+                        , "/css/**");
     }
 }
